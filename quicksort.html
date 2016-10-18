@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        #intro{
+            margin:20px;
+        }
+    </style>
+    <body>
+        <div id="intro">
+            <h1>Quicksort</h1>
+            <p>This was another challenge I saw on Code Golf. Instead of attempting to golf it, I just wrote a quicksort program normally to learn more about quicksort. My understanding of this type of divide and conquer sorting comes from a variety of sources, mainly a data structures and algorithms textbook, wikipedia, and a few articles I found online. I used Javascripts built-in random function to choose my pivot, as opposed to a left/rigth end, median of three, or median of medians approach. It was great practice for recursion, as well as understanding more about runtimes and memory space. Feel free to use F12 and look at my code, and give me comments/questions/critiques!</p>
+        </div>
+        <div id="wrapper">
+            <p>Enter in a list of numbers, no brackets, parethesis, seperated by commas.</p>
+            <p>ex: 2, 4, 1, 4, 5, 6 </p>
+            <input type="text" id="array" name="array1" value="">
+            <button onclick="finalFunction()">Sort</button>
+            <div id="demo"></div>
+        </div>
+        
+        <script>
+            function quicksort(arr){
+                if(arr.length<2){  //don't sort arrays with a single element or less
+                    return arr;
+                }
+                var rand=Math.floor(Math.random()*arr.length);  //picks a random pivot index number
+                var pivot=arr[rand]; 
+                var tmpArr=[pivot];  //creates a temporary array with just the pivot
+                arr.splice(rand,1);
+                for(i=0;i<arr.length;i++){
+                    if(arr[i]<pivot){  //if the element is less than the pivot, add it to the start of the temporary array
+                        tmpArr.unshift(arr[i]);
+                    }
+                    else{  //else add it to the end of the array
+                        tmpArr.push(arr[i]);
+                    }
+                }
+                arr=tmpArr; //reset array to the temporary array
+                pivInd=arr.indexOf(pivot); 
+                var lo=arr.splice(0,pivInd);  //split the array into the low numbers
+                lo=quicksort(lo); //quicksort the low
+                var hi=arr.splice(1,arr.length-1); //take the high numbers
+                hi=quicksort(hi); //quicksort hi
+                arr=lo.concat(arr,hi); //rejoin the array
+                //console.log(arr);
+                return arr;
+            }
+            
+            function finalFunction(){
+                var arrIn=document.getElementById("array").value;
+                arrIn=arrIn.split(",");
+                console.log(arrIn);
+                var tmp=[];
+                for(i=0;i<arrIn.length;i++){
+                    tmp.push(Number(arrIn[i]));
+                }
+                arrIn=tmp;                document.getElementById("demo").innerHTML=quicksort(arrIn);
+            }
+        </script>
+    </body>
+</html>
